@@ -1,6 +1,6 @@
 # Projects 
 ## Derivative Free Optimization 
-### Adaptive Sampling Trust Region Optimization-Derivative Free (ASTRO-DF)
+### Adaptive Sampling Trust Region Optimization-Derivative Free (ASTRO-DF) with the Diagonal Hessian 
 
 ## Traffic Light Problem 
 
