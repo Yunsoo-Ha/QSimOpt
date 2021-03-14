@@ -1,4 +1,4 @@
-## Quantum Simulation optimization
+# Quantum Simulation optimization
 
-# Traffic Light Problem 
+## Traffic Light Problem 
 
