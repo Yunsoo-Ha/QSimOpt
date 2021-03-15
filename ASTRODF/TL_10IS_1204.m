@@ -27,13 +27,10 @@ for q = 1:Macro_rep
         % Decidion variable - offset.
         OS1 = x1(wtsim1);
 
-        % 이 람다가 앱스트랙 제출한 람다
         lambda =  1.5; % Arrival rate
         SIGT = 40;
         SGT = 60 - SIGT;
-        %lambda =  1/75; % Arrival rate
 
-        % GreenLight On 이 현재 어떤 상태인지 알아내는 코드 필요
          
         for i = 1:NumInt
             if i == 1
@@ -74,16 +71,6 @@ for q = 1:Macro_rep
                 G_on(3*i) = 1;
             end
         end
-
-        %time -- 10 mile/hour → 0.17 mile/min → 0.1 miles takes about 35 secs
-        %     0.05 miles → 1 min == 17.5 secs
-        %     0.1 miles → 2 min == 35 secs
-        %     Average car length: 4.7 m → 5 m
-        %     Safety distance: 3 m 
-        %     Hence, capacity become each 20 and 10.
-        % 20대 지나는데 35초 
-        % T1은 2대 지나는데 걸리는 시간.
-        % T2는 T1 + 0.5
 
         T1 = 2;
         T2 = 2.5;
@@ -164,7 +151,6 @@ for q = 1:Macro_rep
 
                 ExternalA = [1 2 5 7 13 19 25 27 30];
             
-                %시작지 설정
                 i = floor(9*rand(1)+1);
                 i = ExternalA(i);
 
@@ -224,7 +210,6 @@ for q = 1:Macro_rep
                 Q_exist(i) = 1;
                 Q{i} = [Q{i} t];
                 QA{i} = [QA{i} [t nAE]'];
-                %QA{i} = [QA{i}; nAE];
                 Q_NoA{i} = [Q_NoA{i} i];
                 Q_NoD{i} = [Q_NoD{i} Path(2)];
                 nQ(i) = nQ(i) + 1;
@@ -232,8 +217,6 @@ for q = 1:Macro_rep
                 Vdict.Node_A = [Vdict.Node_A i];
                 Vdict.Node_D = [Vdict.Node_D Path(2)];
                 PATH{nAE} = Path;
-                %Vdict.Node_D(nAE,:) = [Path];
-                %Vdict.Path{len(Vdict.Node_A)} = Path;
                 Vdict.tA = [Vdict.tA t];
                 nAE = nAE + 1;
 
@@ -286,7 +269,6 @@ for q = 1:Macro_rep
                 end
                 I = tempt;
 
-                % 몇 번째 들어온 차인지 찾기
                 Z = QA{I}(2,find(QD{I} == tD));
                 for i = 1:length(PATH{Z})
                     if PATH{Z}(i) == I
@@ -328,7 +310,6 @@ for q = 1:Macro_rep
                 G_on(3*I) = 1;
                 G_on(3*I-1) = 1;
                 G_on(3*I-2) = 0;
-                %binary_on(I) = 1;
 
                 if isempty(Q{3*I}) == 0 
                     IND1 = 0;
@@ -379,7 +360,6 @@ for q = 1:Macro_rep
                             if isempty(Q{3*I-1}) == 0
                                 if GT(I)+T2+(j-1)*TVTpV + (j-1)*delay <= Q{3*I-1}(1) + 2.5 || IND2 == 1
                                     IND2 = 1;
-                                    % 앞에 차 몇대 있나?
                                     Num_Q = length(QD{3*I-1}(QD{3*I-1}>Q{3*I-1}(1)));
                                     if Q{3*I-1}(1)+T1 <= GT(I) + SIGT && Num_Q == 0 
                                         QD_tempt{3*I-1} = [QD_tempt{3*I-1} Q{3*I-1}(1)+T1];
@@ -423,7 +403,6 @@ for q = 1:Macro_rep
                                 if IGT(I)+T2+(j-1)*TVTpV + (j-1)*delay <= Q{3*I-2}(1) + 2.5 || IND == 1
                                     IND = 1;
 
-                                    % 앞에 차 몇대 있나?
                                     Num_Q = length(QD{3*I-2}(QD{3*I-2}>Q{3*I-2}(1)));
                                     if Q{3*I-2}(1)+T1 <= IGT(I) + SGT && Num_Q == 0 
                                         QD_tempt{3*I-2} = [QD_tempt{3*I-2} Q{3*I-2}(1)+T1];
