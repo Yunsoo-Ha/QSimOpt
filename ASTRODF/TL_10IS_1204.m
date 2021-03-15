@@ -27,13 +27,13 @@ for q = 1:Macro_rep
         % Decidion variable - offset.
         OS1 = x1(wtsim1);
 
-        % ÀÌ ¶÷´Ù°¡ ¾Û½ºÆ®·¢ Á¦ÃâÇÑ ¶÷´Ù
+        % ì´ ëŒë‹¤ê°€ ì•±ìŠ¤íŠ¸ë™ ì œì¶œí•œ ëŒë‹¤
         lambda =  1.5; % Arrival rate
         SIGT = 40;
         SGT = 60 - SIGT;
         %lambda =  1/75; % Arrival rate
 
-        % GreenLight On ÀÌ ÇöÀç ¾î¶² »óÅÂÀÎÁö ¾Ë¾Æ³»´Â ÄÚµå ÇÊ¿ä
+        % GreenLight On ì´ í˜„ì¬ ì–´ë–¤ ìƒíƒœì¸ì§€ ì•Œì•„ë‚´ëŠ” ì½”ë“œ í•„ìš”
          
         for i = 1:NumInt
             if i == 1
@@ -75,15 +75,15 @@ for q = 1:Macro_rep
             end
         end
 
-        %time -- 10 mile/hour ¡æ 0.17 mile/min ¡æ 0.1 miles takes about 35 secs
-        %     0.05 miles ¡æ 1 min == 17.5 secs
-        %     0.1 miles ¡æ 2 min == 35 secs
-        %     Average car length: 4.7 m ¡æ 5 m
+        %time -- 10 mile/hour â†’ 0.17 mile/min â†’ 0.1 miles takes about 35 secs
+        %     0.05 miles â†’ 1 min == 17.5 secs
+        %     0.1 miles â†’ 2 min == 35 secs
+        %     Average car length: 4.7 m â†’ 5 m
         %     Safety distance: 3 m 
         %     Hence, capacity become each 20 and 10.
-        % 20´ë Áö³ª´Âµ¥ 35ÃÊ 
-        % T1Àº 2´ë Áö³ª´Âµ¥ °É¸®´Â ½Ã°£.
-        % T2´Â T1 + 0.5
+        % 20ëŒ€ ì§€ë‚˜ëŠ”ë° 35ì´ˆ 
+        % T1ì€ 2ëŒ€ ì§€ë‚˜ëŠ”ë° ê±¸ë¦¬ëŠ” ì‹œê°„.
+        % T2ëŠ” T1 + 0.5
 
         T1 = 2;
         T2 = 2.5;
@@ -155,7 +155,7 @@ for q = 1:Macro_rep
 
         % UPDATE ALL ARRIVING CARS
         while t < T    
-            t = min([tA tD min(GT) min(IGT)]); %min °ªÀ¸·Î °íÃÄ¾ßÇÔ
+            t = min([tA tD min(GT) min(IGT)]); 
 
             % External arrival 
             if t == tA
@@ -164,7 +164,7 @@ for q = 1:Macro_rep
 
                 ExternalA = [1 2 5 7 13 19 25 27 30];
             
-                %½ÃÀÛÁö ¼³Á¤
+                %ì‹œì‘ì§€ ì„¤ì •
                 i = floor(9*rand(1)+1);
                 i = ExternalA(i);
 
@@ -239,7 +239,6 @@ for q = 1:Macro_rep
 
                 % at first, check Green light on
                 if binary_on(i) == 0 && G_on(i) == 1
-                    %Ã¹ Â÷·®ÀÏ °æ¿ì, IGT¿¡¼­ Â÷·® µÎ´ë ¸¸Å­ Áö³ª°¡´Â T2 ½Ã°£ÀÌ °É¸²
                     j = length(QD_tempt{i}) + length(Q{i});
                     if j == 1
                         if mod(i,3) == 0 && t+T1 < IGT((i)/3)
@@ -278,11 +277,7 @@ for q = 1:Macro_rep
                     end
                 end
 
-            % departure °¡ °¡Àå ÀÛÀº °ªÀÏ ¶§ -- ³ª°¡¼­ ´Ù¸¥ Å¥¿¡ µé¾î°¡´Â°Í ±îÁö -- internal arrival ÀÌ ¹ß»ı
             elseif t == tD
-                % ¿©±â¼­ departure ÇßÀ» ¶§, internal arrival ¹ß»ı --> travel time °è»ê ÀÌ¶§ nQ°¡
-                % ÇÊ¿äÇÏ´Ù. ¾Õ¿¡ Â÷·®´ñ¼ö°¡ ¸î´ë Á¤µµ ÀÖ´ÂÁö ¾Ë¾Æ¾ßÇÔ. --> length que-tempt + que
-                % ÀÌ Â÷°¡ ¾îµğ¼­ µé¾î¿Ô°í ¾îµğ·Î ³ª°¡´ÂÁö¸¦ ¾Ë¾Æ¾ßÇÔ. 
                 for z = 1:3*NumInt
                     if tD == min(QD_tempt{z})
                         tempt = z;
@@ -291,7 +286,7 @@ for q = 1:Macro_rep
                 end
                 I = tempt;
 
-                % ¸î ¹øÂ° µé¾î¿Â Â÷ÀÎÁö Ã£±â
+                % ëª‡ ë²ˆì§¸ ë“¤ì–´ì˜¨ ì°¨ì¸ì§€ ì°¾ê¸°
                 Z = QA{I}(2,find(QD{I} == tD));
                 for i = 1:length(PATH{Z})
                     if PATH{Z}(i) == I
@@ -300,17 +295,11 @@ for q = 1:Macro_rep
                     end
                 end
 
-                % Â÷°¡ ºüÁ®³ª°¬À¸´Ï±î °øÁıÇÕÀ¸·Î ¸¸µé¾îÁØ´Ù.
                 QD_tempt{I}(1) = [];
 
                 if J == 31
-                    % ¹Ù·Î ¹ÛÀ¸·Î ³ª°¡¾ßÇÏ¸ç, waiting timeÀÌ ÇÊ¿ä°¡ ¾ø³ª? 
                     Vdict.tDend = [Vdict.tDend [tD Z]'];
                 else            
-                    % ³ª°£ Â÷°¡ ±×´ÙÀ½ Å¥¿¡ µµÂøÇÏ´Â travel time °è»ê ¹× Q ¿¡ µµ Áı¾î³Ö¾îÁÖ±â
-                    % Now, internal arrivals
-                    % Quelength Á¤ÇÏ´Â°É »õ·Î ÇØ¾ßÇÑ´Ù.
-
                     j = length(QA{J})-length(QD{J});
                     Q_exist(J) = 1;
                     if isempty(QA{J}) == 0
@@ -334,7 +323,6 @@ for q = 1:Macro_rep
                     nAI = nAI + 1;
                  end
 
-            % GT ÀÌ °¡Àå ÀÛÀº °ªÀÏ ¶§
             elseif t == min(GT)
                 [~,I] = min(GT);
                 G_on(3*I) = 1;
@@ -354,7 +342,7 @@ for q = 1:Macro_rep
                             if isempty(Q{3*I}) == 0
                                 if GT(I)+T2+(j-1)*TVTpV + (j-1)*delay <= Q{3*I}(1) + 2.5 || IND1 == 1
                                     IND1 = 1;
-                                    % ¾Õ¿¡ Â÷ ¸î´ë ÀÖ³ª?
+                                    % ì•ì— ì°¨ ëª‡ëŒ€ ìˆë‚˜?
                                     Num_Q = length(QD{3*I}(QD{3*I}>Q{3*I}(1)));
                                     if Q{3*I}(1)+T1 <= GT(I) + SIGT && Num_Q == 0 
                                         QD_tempt{3*I} = [QD_tempt{3*I} Q{3*I}(1)+T1];
@@ -391,7 +379,7 @@ for q = 1:Macro_rep
                             if isempty(Q{3*I-1}) == 0
                                 if GT(I)+T2+(j-1)*TVTpV + (j-1)*delay <= Q{3*I-1}(1) + 2.5 || IND2 == 1
                                     IND2 = 1;
-                                    % ¾Õ¿¡ Â÷ ¸î´ë ÀÖ³ª?
+                                    % ì•ì— ì°¨ ëª‡ëŒ€ ìˆë‚˜?
                                     Num_Q = length(QD{3*I-1}(QD{3*I-1}>Q{3*I-1}(1)));
                                     if Q{3*I-1}(1)+T1 <= GT(I) + SIGT && Num_Q == 0 
                                         QD_tempt{3*I-1} = [QD_tempt{3*I-1} Q{3*I-1}(1)+T1];
@@ -416,38 +404,26 @@ for q = 1:Macro_rep
                     end
                 end
                 GT(I) = GT(I) + 60;
-
-            % IGT °¡ °¡Àå ÀÛÀº °ªÀÏ ¶§     
+   
             elseif t == min(IGT)        
                 [~,I] = min(IGT);
                 G_on(3*I-2) = 1;
                 G_on(3*I-1) = 0;
                 G_on(3*I) = 0;
                 IND = 0;
-
-                % IGT°¡ °¡Àå ÀÛÀ» ¶§µµ GT°¡ ÀúÀı·Î ¹Ù²î´Â°Å¶ó¼­ ¾÷µ¥ÀÌÆ® ÇØÁà¾ßÇÑ´Ù.
-                % update¸¦ ¾î¶»°Ô ÇØÁà¾ßÇÒ±î? -- ¾çÂÊ ¸ğµÎ ÇØÁà¾ßÇÏ³ª? 
-                % GTÀÌ 20ÃÊ¿¡¼­ 40ÃÊ°¡ µÇ¸é 
-
                 Num = 1;
 
                 if isempty(Q{3*I-2}) == 0 
                     if Q{3*I-2}(1) <= IGT(I) + SGT
                         for j = 1:length(Q{3*I-2})
-                            %delay = normrnd(0.1,0.02);
-                            %Ã¹ Â÷·®ÀÏ °æ¿ì, IGT¿¡¼­ Â÷·® µÎ´ë ¸¸Å­ Áö³ª°¡´Â T2 ½Ã°£ÀÌ °É¸²
-                            %!!!Â÷·®ÀÌ ³Ê¹« ¸¹ÀÌ ¸ô¸± °æ¿ì, ´ÙÀ½ GT ¾È¿¡µµ ´ë±âÇÏ°í ÀÖ¾ú´ø Â÷·®ÀÌ ´Ù ¸øÁö³ª°¡´Â
-                            %!!!°æ¿ì°¡ »ı°åÀ»¶§¸¦ ´ëºñÇÑ break
                             if IGT(I)+T2+(j-1)*TVTpV + (j-1)*delay > IGT(I) + SGT
                                 break
                             end
-
-                            % ±â´Ù¸®°í ÀÖ´ø Â÷·®ÀÌ ¾Æ´Ñ °ÍÀÓ 
                             if isempty(Q{3*I-2}) == 0
                                 if IGT(I)+T2+(j-1)*TVTpV + (j-1)*delay <= Q{3*I-2}(1) + 2.5 || IND == 1
                                     IND = 1;
 
-                                    % ¾Õ¿¡ Â÷ ¸î´ë ÀÖ³ª?
+                                    % ì•ì— ì°¨ ëª‡ëŒ€ ìˆë‚˜?
                                     Num_Q = length(QD{3*I-2}(QD{3*I-2}>Q{3*I-2}(1)));
                                     if Q{3*I-2}(1)+T1 <= IGT(I) + SGT && Num_Q == 0 
                                         QD_tempt{3*I-2} = [QD_tempt{3*I-2} Q{3*I-2}(1)+T1];
@@ -473,11 +449,9 @@ for q = 1:Macro_rep
                 IGT(I) = IGT(I) + 60;
             end
 
-            % arrival update
             tD = min([QD_tempt{1:end}]);
         end
 
-            %°á°ú ÀúÀå
             cycletime = [];
             for i = 100:length(Vdict.tDend(1,:))
                 cycletime = [cycletime Vdict.tDend(1,i) - Vdict.tA(Vdict.tDend(2,i))];
